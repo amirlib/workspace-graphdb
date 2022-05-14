@@ -7,6 +7,8 @@ namespace WorkspaceGraphs.Models
 {
     public class Directory
 	{
+        public Directory() { }
+
         public Directory(int count, string path)
         {
             FilesCount = count;
@@ -16,7 +18,6 @@ namespace WorkspaceGraphs.Models
         public Directory(DirectoryInfo info)
         {
             FilesCount = info.CountFiles();
-            Info = info;
             Path = info.FullName;
         }
 
@@ -29,7 +30,6 @@ namespace WorkspaceGraphs.Models
         [JsonPropertyName("filesCount")]
         public int FilesCount { get; set; }
 
-        public DirectoryInfo Info { get; }
 
         public Dictionary<string, object> AsDictionary()
         {

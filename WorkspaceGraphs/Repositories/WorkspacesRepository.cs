@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Neo4j.Driver;
 using WorkspaceGraphs.Extensions;
@@ -207,6 +209,70 @@ namespace WorkspaceGraphs.Repositories
                 });
 
                 return (long)result;
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+        }
+        /// <summary>
+        /// Matching a directory tree that has a directory with exactly 3 empty subdirectories
+        /// </summary>
+        /// <returns>Directory tree</returns>
+        public async Task GetDirTreeWithSubDirHoldsThreeEmptySubDirAsync()
+        {
+            var session = CreateAsyncSession();
+
+            try
+            {
+                var query = @"
+                    MATCH (p:Directory)-[:HAS_CHILD]-(d:Directory)
+                    WHERE NOT (d)-->()
+                    RETURN p";
+
+                await session.ReadTransactionAsync(async tx =>
+                {
+                    await tx.RunAsync(query);
+                });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+        }
+        /// <summary>
+        /// Matching two files that match these conditions
+        /// equal names
+        /// the directory of one file is the subdirectory of the second file directory
+        /// the file name is longer than 4 characters
+        /// </summary>
+        /// <returns>Directory tree</returns>
+        public async Task GetFilesWithSameNameInDifDirsAsync()
+        {
+            var session = CreateAsyncSession();
+
+            try
+            {
+                var query = @"
+                    MATCH (d1:Directory)-[:HAS_CHILD*]->(f1:File)
+                    MATCH (d2:Directory)-[:HAS_CHILD*]->(f2:File)
+                    WITH d1, d2, f1, f2, last(last(apoc.text.regexGroups(f1.path, '([a-zA-Z0-9-_ .]*\.[a-zA-Z_]+)$'))) as name1, last(last(apoc.text.regexGroups(f2.path, '([a-zA-Z0-9-_ .]*\.[a-zA-Z_]+)$'))) as name2
+                    WHERE (d1)-->(d2) AND size(name1) >= 4 AND name1 = name2 
+                    RETURN f1, f2
+                    LIMIT 1";
+
+                await session.ReadTransactionAsync(async tx =>
+                {
+                    await tx.RunAsync(query);
+                });
+            }
+            catch (Exception)
+            {
+                throw;
             }
             finally
             {

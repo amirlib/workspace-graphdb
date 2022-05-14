@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -88,6 +89,25 @@ namespace WorkspaceGraphs
             var result = await _workspacesRepository.CountRootSunDirAsync();
 
             return result;
+        }
+        /// <summary>
+        /// Run the query to find directory tree that has a directory with exactly 3 empty subdirectories
+        /// </summary>
+        /// <returns>Directories</returns>
+        public async Task RunDirTreeWithSubDirHoldsThreeEmptySubDirQueryAsync()
+        {
+            await _workspacesRepository.GetDirTreeWithSubDirHoldsThreeEmptySubDirAsync();
+        }
+        /// <summary>
+        /// Run the query to find two files that match these conditions
+        /// equal names
+        /// the directory of one file is the subdirectory of the second file directory
+        /// the file name is longer than 4 characters
+        /// </summary>
+        /// <returns>Files tree</returns>
+        public async Task RunFilesWithSameNameInDifDirsQueryAsync()
+        {
+            await _workspacesRepository.GetFilesWithSameNameInDifDirsAsync();
         }
 
         #region Private Methods

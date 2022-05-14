@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace WorkspaceGraphs
@@ -57,8 +58,8 @@ namespace WorkspaceGraphs
             sb.AppendLine("3. Run a query to find the directory that has the most sub-directories");
             sb.AppendLine("4. Run a query to find a directory that has a sub-directory that has at least 1 executable file");
             sb.AppendLine("5. Run a query to calculate how many total subdirectories the root directory has");
-            //sb.AppendLine("6. Run a A query to find a directory tree that has a directory with exactly 3 empty subdirectories");
-            //sb.AppendLine("7. Run a query to find 2 files that match the requested conditions");
+            sb.AppendLine("6. Run a query to find a directory tree that has a directory with exactly 3 empty subdirectories");
+            sb.AppendLine("7. Run a query to find 2 files that match the requested conditions");
             sb.AppendLine("8. Reset database");
 
             Console.Write(sb.ToString());
@@ -77,13 +78,9 @@ namespace WorkspaceGraphs
                     "3" => await HandleQueryDirWithMostSubDirChoiseAsync(),
                     "4" => await HandleQueryDirWithSubDirContainExeChoiseAsync(),
                     "5" => await HandleQueryCountRootSunDirChoiseAsync(),
-                    //case "6":
-                    //	Console.WriteLine($"Your result: {num1} / {num2} = " + (num1 / num2));
-                    //	break;
-                    //case "7":
-                    //	Console.WriteLine($"Your result: {num1} / {num2} = " + (num1 / num2));
-                    //	break;
-                    "8" => await HandleResetDbChoiseAsync(),
+                    "6" => await HandleQueryDirTreeWithSubDirHoldsThreeEmptySubDirChoiseAsync(),
+                    "7" => await HandleQueryDirTreeWithSubDirHoldsThreeEmptySubDirChoiseAsync(),
+                    "8" => await HandleQueryFilesWithSameNameInDifDirsChoiseAsync(),
                     _ => "Please choose from the presented choises",
                 };
 
@@ -157,6 +154,40 @@ namespace WorkspaceGraphs
             var result = await _starter.RunCountRootSunDirQueryAsync();
 
             return $"The result is: {result}";
+        }
+        /// <summary>
+        /// Handles the query of calculating how many total subdirectories the root directory has
+        /// </summary>
+        /// <returns>String that represents the result of this action</returns>
+        private async Task<string> HandleQueryDirTreeWithSubDirHoldsThreeEmptySubDirChoiseAsync()
+        {
+            try
+            {
+                await _starter.RunDirTreeWithSubDirHoldsThreeEmptySubDirQueryAsync();
+
+                return "The query executed successfully. (See the code for the query)";
+            }
+            catch (Exception)
+            {
+                return "An error ecured while running the query";
+            }
+        }
+        /// <summary>
+        /// Handles the query of calculating how many total subdirectories the root directory has
+        /// </summary>
+        /// <returns>String that represents the result of this action</returns>
+        private async Task<string> HandleQueryFilesWithSameNameInDifDirsChoiseAsync()
+        {
+            try
+            {
+                await _starter.RunFilesWithSameNameInDifDirsQueryAsync();
+
+                return "The query executed successfully. (See the code for the query)";
+            }
+            catch (Exception)
+            {
+                return "An error ecured while running the query";
+            }
         }
         /// <summary>
         /// Handles the reseting the database
