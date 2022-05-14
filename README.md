@@ -2,7 +2,8 @@
 
 ## Requiremnts:
 1. .NET 5
-2. This app assumes that executable files are with .exe extention in each OS.
+2. Neo4j with APOC plugin
+3. This app assumes that executable files are with .exe extention in each OS.
 
 ## How to use
 You can change the config values for Neo4j from the appsettings.json file.  
