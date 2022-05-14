@@ -79,8 +79,8 @@ namespace WorkspaceGraphs
                     "4" => await HandleQueryDirWithSubDirContainExeChoiseAsync(),
                     "5" => await HandleQueryCountRootSunDirChoiseAsync(),
                     "6" => await HandleQueryDirTreeWithSubDirHoldsThreeEmptySubDirChoiseAsync(),
-                    "7" => await HandleQueryDirTreeWithSubDirHoldsThreeEmptySubDirChoiseAsync(),
-                    "8" => await HandleQueryFilesWithSameNameInDifDirsChoiseAsync(),
+                    "7" => await HandleQueryFilesWithSameNameInDifDirsChoiseAsync(),
+                    "8" => await HandleResetDbChoiseAsync(),
                     _ => "Please choose from the presented choises",
                 };
 
