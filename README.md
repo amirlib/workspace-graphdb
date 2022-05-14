@@ -6,5 +6,5 @@
 
 ## How to use
 Just run it from visual studio.
-It's a console application, and you will have a GUI to interact with the app
-(This app was build and tested in macOS envirment but it should work also in other OS)
+It's a console application, and you will have a GUI to interact with the app.  
+(This app was built and tested in macOS enviroment but it should work also in other OS)
